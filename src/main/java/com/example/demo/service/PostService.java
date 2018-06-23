@@ -20,7 +20,7 @@ public class PostService {
 
     @Transactional
     public Post save(Post p) {
-        Post post = postRepository.save(p);
+        Post post = postRepository.saveAndFlush(p);
         post.getCommentList().forEach(pc -> System.out.println(pc.getReview()));
         return post;
     }
