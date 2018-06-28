@@ -3,6 +3,8 @@ package com.example.demo.resource;
 import com.example.demo.model.Post;
 import com.example.demo.repository.PostRepository;
 import com.example.demo.service.PostService;
+import lombok.extern.log4j.Log4j2;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,6 +15,7 @@ import java.util.Optional;
  */
 @RestController()
 @RequestMapping("/post")
+@Log4j2
 public class PostResource {
 
     private final PostRepository postRepository;
@@ -27,7 +30,11 @@ public class PostResource {
 
     @GetMapping("/all")
     public List<Post> list() {
-        return postRepository.findAll();
+        List<Post> posts = postRepository.findAll();
+        posts.forEach(p -> {
+            log.info("post is " + ToStringBuilder.reflectionToString(p));
+        });
+        return posts;
     }
 
     @GetMapping("/{id}")

@@ -1,9 +1,9 @@
 package com.example.demo.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.ParamDef;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -14,20 +14,22 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "post")
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Post {
-
-    @Id
-    @GeneratedValue
-    Long id;
+@Filter(name = "filter",condition = "created_By=:user")
+@FilterDef(name = "filter", defaultCondition = "deleted=0",parameters = {
+        @ParamDef(name = "user",type = "string")
+})
+public class Post extends MappedAuditableBase {
 
     @Column(name = "title")
     String title;
 
+    @Column(name = "deleted")
+    boolean deleted = false;
+
     @OneToMany(mappedBy = "post")
-    Set<PostComment> commentList=new HashSet<>();
+    Set<PostComment> commentList = new HashSet<>();
 
 }

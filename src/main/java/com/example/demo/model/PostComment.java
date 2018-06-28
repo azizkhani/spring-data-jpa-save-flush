@@ -1,10 +1,7 @@
 package com.example.demo.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -17,11 +14,8 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PostComment {
+public class PostComment extends MappedAuditableBase {
 
-    @Id
-    @GeneratedValue
-    Long id;
 
     @Column(name = "review")
     String review;
